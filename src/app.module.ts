@@ -17,7 +17,7 @@ import { UsersModule } from './users/users.module';
       username: process.env.USER_DB,
       password: process.env.PASS_DB,
       database: process.env.DATABASE,
-      models: [],
+      models: [User],
       autoLoadModels: true
     }),
     UsersModule,
