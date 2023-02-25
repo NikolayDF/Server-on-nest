@@ -14,15 +14,15 @@ export class UsersController {
   @ApiOperation( {summary: 'Регистрация'})
   @ApiResponse( {status: 200, type: User})
   @Post()
-  create(@Body() userDto: CreateUserDto) {
-    return this.usersService.createUser(userDto);
+  create(@Body() userDto: User) {
+    return this.usersService.createUser(userDto)
   }
   
   @ApiOperation( {summary: 'Вывод всех пользователей'})
   @ApiResponse( {status: 200, type: [User]})
   @Get()
   getAll() {
-    return this.usersService.getAllUsers();
+    return this.usersService.findAll();
   }
 
 }
