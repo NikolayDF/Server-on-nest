@@ -1,7 +1,6 @@
 import {Body, Controller, Post, Get } from '@nestjs/common';
-
+import { HttpException, HttpStatus } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger/dist';
 import { User } from './users.model';
 
@@ -14,8 +13,19 @@ export class UsersController {
   @ApiOperation( {summary: 'Регистрация'})
   @ApiResponse( {status: 200, type: User})
   @Post()
-  create(@Body() userDto: User) {
-    return this.usersService.createUser(userDto)
+  async create(@Body() userDto: User)
+  {
+    try {
+      return await this.usersService.createUser(userDto)
+    }
+    catch (error) { 
+      throw new HttpException({
+        status: HttpStatus.CONFLICT,
+        error: `Пользователь с почтовым адресом ${userDto.email} уже зарегистрирован.`,
+      }, HttpStatus.INTERNAL_SERVER_ERROR, {
+        cause: error
+      });
+    }
   }
   
   @ApiOperation( {summary: 'Вывод всех пользователей'})

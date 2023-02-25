@@ -1,11 +1,12 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
-import { SequelizeModule } from '@nestjs/sequelize';
-import { UsersModule } from './users/users.module';
-import { User } from "./users/users.model";
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { DataSource } from 'typeorm';
+import { UsersModule } from './users/users.module';
+import { User } from "./users/users.model";
+
+import { MailModule } from './mail/mail.module';
+import { Mail } from "./mail/mail.model";
 
 @Module({
   controllers: [],
@@ -17,12 +18,11 @@ import { DataSource } from 'typeorm';
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'mail.db',
-      entities: [User],
+      entities: [User, Mail],
       synchronize: true,
     }),
     UsersModule,
+    MailModule,
   ],
 })
-export class AppModule {
-  /*constructor(private dataSource: DataSource) {}*/
-}
+export class AppModule {}

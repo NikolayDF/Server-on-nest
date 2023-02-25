@@ -19,14 +19,14 @@ export class User {
   login: string;
 
   @ApiProperty({example: 'mail@mail.ru', description: 'Почтовый адрес'})
-  @Column()
+  @Column({unique: true})
   email: string;
 
   @ApiProperty({example: '12345', description: 'Пароль'})
   @Column()
   password: string;
 
-  /*@ApiProperty({example: '\\image\\id', description: 'Адрес до изображения'})
-  @Column()
-  image: string;*/
+  @ApiProperty({example: '\\image\\id', description: 'Адрес до изображения'})
+  @Column({ default: '' })
+  image: string;
 }
