@@ -5,21 +5,20 @@ import { JwtService } from '@nestjs/jwt/dist';
 import { User } from 'src/users/users.model';
 import { UsersService } from 'src/users/users.service';
 import * as bcrypt from 'bcryptjs';
-import { ApiUnauthorizedResponse } from '@nestjs/swagger';
 
 @Injectable()
 export class AuthService {
 
-  constructor(private userService: UsersService,
-    private jwtService: JwtService) {
-
-  }
+  constructor
+  (
+    private userService: UsersService,
+    private jwtService: JwtService
+  ) {}
 
   async login(dto: User) {
     const user = await this.validateUser(dto);
     return this.generateToken(user);
   }
-
 
   async registration(dto: User) {
     const user = await this.userService.getUser(dto.email);

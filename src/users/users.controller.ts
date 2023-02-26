@@ -1,8 +1,10 @@
-import {Body, Controller, Post, Get } from '@nestjs/common';
+import { Body, Controller, Post, Get, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger/dist';
 import { User } from './users.model';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags( 'Пользователи')
 @Controller('users')
@@ -28,9 +30,19 @@ export class UsersController {
   
   @ApiOperation( {summary: 'Вывод всех пользователей'})
   @ApiResponse( {status: 200, type: [User]})
+  @UseGuards(JwtAuthGuard)
   @Get()
   getAll() {
     return this.usersService.findAll();
+  }
+
+  @ApiOperation( {summary: 'Изменение аватара'})
+  @ApiResponse( {status: 200, type: User})
+  @UseInterceptors(FileInterceptor('image'))
+  @Post('/avatar')
+  createAvatar(@UploadedFile() image)
+  {
+    return this.usersService.createAvatar(image);
   }
 
 }

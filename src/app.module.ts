@@ -7,13 +7,16 @@ import { User } from "./users/users.model";
 
 import { MailModule } from './mail/mail.module';
 import { Mail } from "./mail/mail.model";
-import { AuthService } from './auth/auth.service';
-import { AuthController } from './auth/auth.controller';
 import { AuthModule } from './auth/auth.module';
+import { AvatarService } from './avatar/avatar.service';
+import { AvatarModule } from './avatar/avatar.module';
+
+import { ServeStaticModule } from '@nestjs/serve-static';
+import * as path from 'path';
 
 @Module({
   controllers: [],
-  providers: [],
+  providers: [AvatarService],
   imports: [
     ConfigModule.forRoot({
       envFilePath: `.${process.env.NODE_ENV}.env`,
@@ -24,9 +27,13 @@ import { AuthModule } from './auth/auth.module';
       entities: [User, Mail],
       synchronize: true,
     }),
+    ServeStaticModule.forRoot({
+      rootPath: path.resolve(__dirname, 'static'),
+    }),
     UsersModule,
     MailModule,
     AuthModule,
+    AvatarModule,
   ],
 })
 export class AppModule {}
