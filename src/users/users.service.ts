@@ -16,6 +16,10 @@ export class UsersService {
     return this.usersRepository.save(dto);
   }
 
+  getUser(email: string) {
+    return this.usersRepository.findOne({where: {email}});
+  }
+
   findAll(): Promise<User[]> {
     return this.usersRepository.find();
   }

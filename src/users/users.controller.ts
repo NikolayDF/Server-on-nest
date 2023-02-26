@@ -16,15 +16,13 @@ export class UsersController {
   async create(@Body() userDto: User)
   {
     try {
-      return await this.usersService.createUser(userDto)
+      return await this.usersService.createUser(userDto);
     }
-    catch (error) { 
-      throw new HttpException({
-        status: HttpStatus.CONFLICT,
-        error: `Пользователь с почтовым адресом ${userDto.email} уже зарегистрирован.`,
-      }, HttpStatus.INTERNAL_SERVER_ERROR, {
-        cause: error
-      });
+    catch (error) {
+      if(error.code === 'SQLITE_CONSTRAINT') {
+        return {message:`Пользователь с почтовым адресом ${userDto.email} уже зарегистрирован.`, status: 409}
+      }
+      throw new HttpException('Неизвестная ошибка', HttpStatus.INTERNAL_SERVER_ERROR)
     }
   }
   

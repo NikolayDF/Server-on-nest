@@ -7,6 +7,9 @@ import { User } from "./users/users.model";
 
 import { MailModule } from './mail/mail.module';
 import { Mail } from "./mail/mail.model";
+import { AuthService } from './auth/auth.service';
+import { AuthController } from './auth/auth.controller';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   controllers: [],
@@ -23,6 +26,7 @@ import { Mail } from "./mail/mail.model";
     }),
     UsersModule,
     MailModule,
+    AuthModule,
   ],
 })
 export class AppModule {}
